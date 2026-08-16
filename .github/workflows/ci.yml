@@ -82,7 +82,7 @@ jobs:
 
       - name: Publier l'APK debug
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: miamai-debug-apk
           path: mobile/build/app/outputs/flutter-apk/app-debug.apk

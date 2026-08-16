@@ -90,7 +90,7 @@ jobs:
           cp mobile/build/app/outputs/flutter-apk/app-release.apk dist/miamai-android.apk
 
       - name: Publier les artefacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: miamai-build
           path: dist/*
