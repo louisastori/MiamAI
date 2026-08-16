@@ -31,10 +31,10 @@ jobs:
 
     steps:
       - name: Recuperer le code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Installer Java 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "21"
@@ -45,7 +45,7 @@ jobs:
         run: mvn -B package
 
       - name: Installer Java 17 pour Android
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "17"
@@ -90,7 +90,7 @@ jobs:
           cp mobile/build/app/outputs/flutter-apk/app-release.apk dist/miamai-android.apk
 
       - name: Publier les artefacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: miamai-build
           path: dist/*
