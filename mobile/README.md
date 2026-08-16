@@ -2,6 +2,12 @@
 
 Application Flutter du MVP MiamAI.
 
+Identifiant Android :
+
+```text
+fr.miamai.app
+```
+
 ## Lancement
 
 ```powershell
@@ -27,4 +33,5 @@ flutter run --dart-define=MIAMAI_API_BASE=http://127.0.0.1:8080/api
 flutter analyze
 flutter test
 flutter build apk --debug
+flutter build apk --release
 ```

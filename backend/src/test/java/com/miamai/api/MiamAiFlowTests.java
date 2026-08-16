@@ -44,6 +44,21 @@ class MiamAiFlowTests {
     }
 
     @Test
+    void promptWithBudgetFiltersRecipeProposals() {
+        ChatResponse response = assistantService.chat(new ChatRequest(
+                null,
+                "Je veux un repas asiatique pour 3 personnes, rapide et a moins de 15 euros."
+        ));
+
+        assertThat(response.proposals()).isNotEmpty();
+        assertThat(response.proposals())
+                .allSatisfy(recipe -> assertThat(recipe.estimatedCost()).isLessThanOrEqualTo(new BigDecimal("15.00")));
+        assertThat(response.proposals())
+                .extracting("id")
+                .doesNotContain("boeuf-teriyaki");
+    }
+
+    @Test
     void recipeScalingUpdatesIngredientQuantities() {
         RecipeDetail scaled = recipeService.getRecipe("poulet-yakitori").withServings(4);
 
@@ -76,6 +91,21 @@ class MiamAiFlowTests {
     }
 
     @Test
+    void selectingProductAlternativeRecalculatesBasketTotal() {
+        Basket basket = basketService.buildBasket("poulet-yakitori", 3);
+
+        Basket updated = basketService.selectProduct(basket.id(), "riz", "LEC-RIZ-ECO-1K");
+        BasketLine rice = updated.lines().stream()
+                .filter(line -> line.ingredientKey().equals("riz"))
+                .findFirst()
+                .orElseThrow();
+
+        assertThat(rice.selectedProduct().title()).isEqualTo("Riz long grain 1kg");
+        assertThat(updated.totalPrice()).isEqualByComparingTo(new BigDecimal("13.27"));
+        assertThat(updated.totalPrice()).isLessThan(basket.totalPrice());
+    }
+
+    @Test
     void cheaperCommandSelectsLowerCostAlternativesForActiveBasket() {
         ChatResponse initial = assistantService.chat(new ChatRequest(null, "Je veux manger asiatique pour 3 personnes"));
         recipeService.selectRecipe(initial.proposals().getFirst().id(), 3);
@@ -86,5 +116,50 @@ class MiamAiFlowTests {
         assertThat(basket.totalPrice()).isEqualByComparingTo(new BigDecimal("13.81"));
         assertThat(cheaper.basket()).isNotNull();
         assertThat(cheaper.basket().totalPrice()).isLessThan(basket.totalPrice());
+    }
+
+    @Test
+    void replacementCommandAfterRecipeSelectionRebuildsBasket() {
+        ChatResponse initial = assistantService.chat(new ChatRequest(null, "Je veux manger asiatique pour 3 personnes"));
+        recipeService.selectRecipe(initial.proposals().getFirst().id(), 3);
+
+        ChatResponse response = assistantService.chat(new ChatRequest(
+                initial.sessionId(),
+                "Remplace le poulet par de la dinde"
+        ));
+
+        assertThat(response.selectedRecipe()).isNotNull();
+        assertThat(response.selectedRecipe().ingredients())
+                .extracting(IngredientRequirement::name)
+                .contains("Dinde")
+                .doesNotContain("Poulet");
+        assertThat(response.basket()).isNotNull();
+        assertThat(response.basket().lines())
+                .filteredOn(line -> line.ingredientKey().equals("dinde"))
+                .singleElement()
+                .satisfies(line -> assertThat(line.selectedProduct().title()).isEqualTo("Escalopes de dinde 600g"));
+        assertThat(response.basket().totalPrice()).isEqualByComparingTo(new BigDecimal("13.21"));
+    }
+
+    @Test
+    void servingAndRemovalCommandsRecalculateSelectedRecipeAndBasket() {
+        ChatResponse initial = assistantService.chat(new ChatRequest(null, "Je veux manger asiatique pour 3 personnes"));
+        recipeService.selectRecipe(initial.proposals().getFirst().id(), 3);
+
+        ChatResponse resized = assistantService.chat(new ChatRequest(initial.sessionId(), "On sera finalement 4 personnes"));
+        ChatResponse withoutSesame = assistantService.chat(new ChatRequest(initial.sessionId(), "Enleve les graines de sesame"));
+
+        assertThat(resized.selectedRecipe()).isNotNull();
+        assertThat(resized.selectedRecipe().servings()).isEqualTo(4);
+        assertThat(resized.basket()).isNotNull();
+        assertThat(resized.basket().totalPrice()).isEqualByComparingTo(new BigDecimal("20.30"));
+
+        assertThat(withoutSesame.selectedRecipe()).isNotNull();
+        assertThat(withoutSesame.selectedRecipe().servings()).isEqualTo(4);
+        assertThat(withoutSesame.selectedRecipe().ingredients())
+                .extracting(IngredientRequirement::key)
+                .doesNotContain("graines-sesame");
+        assertThat(withoutSesame.basket()).isNotNull();
+        assertThat(withoutSesame.basket().totalPrice()).isEqualByComparingTo(new BigDecimal("18.91"));
     }
 }

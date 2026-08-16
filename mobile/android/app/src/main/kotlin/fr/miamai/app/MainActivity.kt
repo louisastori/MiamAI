@@ -1,4 +1,4 @@
-package com.example.miamai
+package fr.miamai.app
 
 import io.flutter.embedding.android.FlutterActivity
 

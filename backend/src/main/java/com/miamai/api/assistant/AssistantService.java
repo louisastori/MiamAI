@@ -45,7 +45,9 @@ public class AssistantService {
         SessionState state = sessions.computeIfAbsent(sessionId, ignored -> new SessionState());
         String message = request.message();
         String normalized = normalize(message);
-        boolean hasActiveRecipe = state.selectedRecipeId != null || state.basketId != null;
+        boolean hasActiveRecipe = state.selectedRecipeId != null
+                || state.basketId != null
+                || recipeService.hasSelectedRecipe();
 
         if (normalized.contains("moins cher") || (hasActiveRecipe && normalized.contains("petit budget"))) {
             Basket basket = state.basketId == null
@@ -63,7 +65,11 @@ public class AssistantService {
         }
 
         Integer servings = extractServingCount(normalized);
-        if (servings != null && (hasActiveRecipe || normalized.contains("finalement") || normalized.contains("sera"))) {
+        boolean asksForServingUpdate = normalized.contains("finalement")
+                || normalized.contains("sera")
+                || normalized.contains("sommes")
+                || normalized.contains("on est");
+        if (servings != null && hasActiveRecipe && asksForServingUpdate) {
             RecipeDetail recipe = recipeService.updateSelectedRecipe(new UpdateRecipeRequest(servings, null, List.of(), Map.of()));
             Basket basket = basketService.buildBasket(recipe);
             state.selectedRecipeId = recipe.id();

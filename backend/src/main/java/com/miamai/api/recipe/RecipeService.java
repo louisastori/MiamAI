@@ -4,11 +4,15 @@ import com.miamai.api.preference.PreferenceProfile;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.text.Normalizer;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class RecipeService {
@@ -25,11 +29,22 @@ public class RecipeService {
     }
 
     public List<RecipeProposal> proposeRecipes(String prompt, PreferenceProfile preferences) {
-        // La simulation lit seulement le nombre de personnes. Le futur fournisseur IA
-        // utilisera aussi le budget, le temps, les exclusions et le type de cuisine.
+        // La simulation lit les contraintes simples qui changent deja le panier :
+        // nombre de personnes et budget maximum.
         int servings = extractServings(prompt, preferences.peopleCount());
-        return recipes.values().stream()
+        BigDecimal budget = extractBudget(prompt);
+        List<RecipeDetail> scopedRecipes = recipes.values().stream()
                 .map(recipe -> recipe.withServings(servings))
+                .toList();
+        if (budget != null) {
+            List<RecipeDetail> budgetMatches = scopedRecipes.stream()
+                    .filter(recipe -> recipe.estimatedBasketCost().compareTo(budget) <= 0)
+                    .toList();
+            if (!budgetMatches.isEmpty()) {
+                scopedRecipes = budgetMatches;
+            }
+        }
+        return scopedRecipes.stream()
                 .map(this::toProposal)
                 .toList();
     }
@@ -57,18 +72,21 @@ public class RecipeService {
         return selected;
     }
 
+    public boolean hasSelectedRecipe() {
+        return selectedRecipe.get() != null;
+    }
+
     public RecipeDetail updateSelectedRecipe(UpdateRecipeRequest request) {
         RecipeDetail current = selectedRecipe();
         RecipeDetail updated = request.servings() == null ? current : current.withServings(request.servings());
 
         if (request.removeIngredients() != null && !request.removeIngredients().isEmpty()) {
             List<String> removals = request.removeIngredients().stream()
-                    .map(value -> value.toLowerCase(Locale.ROOT))
+                    .map(this::canonicalSearchText)
                     .toList();
             List<IngredientRequirement> ingredients = updated.ingredients().stream()
                     .filter(ingredient -> removals.stream().noneMatch(removal ->
-                            ingredient.name().toLowerCase(Locale.ROOT).contains(removal)
-                                    || ingredient.key().toLowerCase(Locale.ROOT).contains(removal)))
+                            matchesIngredient(ingredient, removal)))
                     .toList();
             updated = new RecipeDetail(
                     updated.id(),
@@ -119,9 +137,8 @@ public class RecipeService {
 
     private IngredientRequirement replaceIngredient(IngredientRequirement ingredient, Map<String, String> replacements) {
         for (Map.Entry<String, String> replacement : replacements.entrySet()) {
-            String source = replacement.getKey().toLowerCase(Locale.ROOT);
-            if (ingredient.name().toLowerCase(Locale.ROOT).contains(source)
-                    || ingredient.key().toLowerCase(Locale.ROOT).contains(source)) {
+            String source = canonicalSearchText(replacement.getKey());
+            if (matchesIngredient(ingredient, source)) {
                 String replacementName = replacement.getValue();
                 String key = replacementName.toLowerCase(Locale.ROOT)
                         .replace(" ", "-")
@@ -137,6 +154,31 @@ public class RecipeService {
             }
         }
         return ingredient;
+    }
+
+    private boolean matchesIngredient(IngredientRequirement ingredient, String query) {
+        List<String> tokens = significantTokens(query);
+        if (tokens.isEmpty()) {
+            return false;
+        }
+        String searchable = canonicalSearchText(ingredient.key() + " " + ingredient.name());
+        return tokens.stream().allMatch(searchable::contains);
+    }
+
+    private List<String> significantTokens(String value) {
+        return Arrays.stream(canonicalSearchText(value).split(" "))
+                .filter(token -> !token.isBlank())
+                .filter(token -> !List.of("de", "du", "des", "la", "le", "les", "l").contains(token))
+                .toList();
+    }
+
+    private String canonicalSearchText(String value) {
+        String withoutAccents = Normalizer.normalize(value.toLowerCase(Locale.ROOT), Normalizer.Form.NFD)
+                .replaceAll("\\p{M}", "");
+        return withoutAccents
+                .replace("œ", "oe")
+                .replaceAll("[^a-z0-9]+", " ")
+                .trim();
     }
 
     private RecipeProposal toProposal(RecipeDetail recipe) {
@@ -165,6 +207,18 @@ public class RecipeService {
             }
         }
         return fallback;
+    }
+
+    private BigDecimal extractBudget(String prompt) {
+        if (prompt == null || prompt.isBlank()) {
+            return null;
+        }
+        String normalized = prompt.toLowerCase(Locale.ROOT).replace(",", ".");
+        Matcher matcher = Pattern.compile("(?:moins de|maximum|max|budget|avec)\\s*(\\d+(?:\\.\\d+)?)\\s*(?:€|euro|euros)?").matcher(normalized);
+        if (!matcher.find()) {
+            return null;
+        }
+        return new BigDecimal(matcher.group(1));
     }
 
     private void seedRecipes() {

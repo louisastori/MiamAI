@@ -59,6 +59,12 @@ Prérequis :
 - Flutter 3.47.0
 - Android SDK pour le build Android
 
+Identifiant Android :
+
+```text
+fr.miamai.app
+```
+
 Commandes :
 
 ```powershell
@@ -96,6 +102,19 @@ Il produit :
 
 - `miamai-api.jar` pour le backend ;
 - `miamai-android.apk` pour l'application mobile.
+
+L'APK Android release est signé avec une clé dédiée. Les fichiers sensibles restent hors dépôt :
+
+- `.secrets/miamai-upload.jks` : keystore local à sauvegarder ;
+- `.secrets/android-signing.env` : rappel local des variables de signature ;
+- `mobile/android/key.properties` : configuration locale Gradle.
+
+Les secrets GitHub Actions utilisés par le CD sont :
+
+- `MIAMAI_ANDROID_KEYSTORE_BASE64`
+- `MIAMAI_ANDROID_KEYSTORE_PASSWORD`
+- `MIAMAI_ANDROID_KEY_ALIAS`
+- `MIAMAI_ANDROID_KEY_PASSWORD`
 
 Sur un tag du type `v0.1.0`, le workflow crée ou met à jour une GitHub Release avec ces artefacts.
 

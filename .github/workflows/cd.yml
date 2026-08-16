@@ -72,6 +72,27 @@ jobs:
             echo "value=$DEFAULT_API_BASE" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Preparer la signature Android release
+        shell: bash
+        env:
+          KEYSTORE_BASE64: ${{ secrets.MIAMAI_ANDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.MIAMAI_ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.MIAMAI_ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.MIAMAI_ANDROID_KEY_PASSWORD }}
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ] || [ -z "$KEYSTORE_PASSWORD" ] || [ -z "$KEY_ALIAS" ] || [ -z "$KEY_PASSWORD" ]; then
+            echo "::error::Secrets Android manquants. Configure MIAMAI_ANDROID_KEYSTORE_BASE64, MIAMAI_ANDROID_KEYSTORE_PASSWORD, MIAMAI_ANDROID_KEY_ALIAS et MIAMAI_ANDROID_KEY_PASSWORD."
+            exit 1
+          fi
+
+          mkdir -p mobile/android/app/signing
+          echo "$KEYSTORE_BASE64" | base64 --decode > mobile/android/app/signing/miamai-release.jks
+
+          echo "MIAMAI_ANDROID_KEYSTORE_PATH=$GITHUB_WORKSPACE/mobile/android/app/signing/miamai-release.jks" >> "$GITHUB_ENV"
+          echo "MIAMAI_ANDROID_KEYSTORE_PASSWORD=$KEYSTORE_PASSWORD" >> "$GITHUB_ENV"
+          echo "MIAMAI_ANDROID_KEY_ALIAS=$KEY_ALIAS" >> "$GITHUB_ENV"
+          echo "MIAMAI_ANDROID_KEY_PASSWORD=$KEY_PASSWORD" >> "$GITHUB_ENV"
+
       - name: Installer les dependances Flutter
         working-directory: mobile
         run: flutter pub get
@@ -81,6 +102,12 @@ jobs:
         env:
           API_BASE: ${{ steps.api.outputs.value }}
         run: flutter build apk --release --dart-define=MIAMAI_API_BASE="$API_BASE"
+
+      - name: Verifier la signature Android
+        shell: bash
+        run: |
+          BUILD_TOOLS_DIR="$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n 1)"
+          "$BUILD_TOOLS_DIR/apksigner" verify --print-certs mobile/build/app/outputs/flutter-apk/app-release.apk
 
       - name: Preparer les artefacts
         shell: bash

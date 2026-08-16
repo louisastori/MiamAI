@@ -9,6 +9,9 @@ mobile/.packages
 # Codex local workspace
 .codex/
 
+# Local signing secrets
+.secrets/
+
 # IDE
 .idea/
 .vscode/
