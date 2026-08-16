@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Cart Preparation - Assistant Cuisine</title>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#f7f9fb",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#ffb77b",
+                        "tertiary": "#005e27",
+                        "tertiary-container": "#007934",
+                        "on-secondary-fixed": "#2e1500",
+                        "on-tertiary-fixed": "#002109",
+                        "primary-fixed-dim": "#aac7ff",
+                        "inverse-surface": "#2d3133",
+                        "surface-variant": "#e0e3e5",
+                        "on-tertiary-fixed-variant": "#005321",
+                        "primary": "#004e9f",
+                        "error": "#ba1a1a",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#001b3e",
+                        "on-background": "#191c1e",
+                        "primary-container": "#0066cc",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-container": "#eceef0",
+                        "tertiary-fixed": "#6bff8f",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-primary-fixed-variant": "#00458e",
+                        "on-secondary-fixed-variant": "#6d3a00",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#005cba",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary-container": "#623300",
+                        "surface-container-low": "#f2f4f6",
+                        "on-tertiary-container": "#98ffa9",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#eff1f3",
+                        "secondary-container": "#ff8e04",
+                        "on-primary": "#ffffff",
+                        "on-surface-variant": "#414753",
+                        "outline": "#727784",
+                        "surface": "#f7f9fb",
+                        "on-primary-container": "#dfe8ff",
+                        "surface-dim": "#d8dadc",
+                        "surface-bright": "#f7f9fb",
+                        "outline-variant": "#c1c6d5",
+                        "primary-fixed": "#d7e3ff",
+                        "on-surface": "#191c1e",
+                        "inverse-primary": "#aac7ff",
+                        "secondary": "#8f4d00",
+                        "secondary-fixed": "#ffdcc2",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#4ae176"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "lg": "24px",
+                        "container-padding": "16px",
+                        "md": "16px",
+                        "unit": "4px",
+                        "xs": "4px",
+                        "sm": "8px",
+                        "gutter": "12px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "chat-bubble": ["Inter"],
+                        "label-bold": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["30px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "chat-bubble": ["15px", { "lineHeight": "22px", "fontWeight": "400" }],
+                        "label-bold": ["12px", { "lineHeight": "16px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased pb-[200px]">
+<!-- TopAppBar (From JSON) -->
+<header class="bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md fixed top-0 left-0 w-full z-50 flex justify-between items-center px-md h-14">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed" data-icon="restaurant" data-weight="fill" style="font-variation-settings: 'FILL' 1;">restaurant</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary dark:text-primary-fixed">Assistant Cuisine</span>
+</div>
+<div class="flex items-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant dark:text-outline-variant mr-xs">Pessac</span>
+<span class="material-symbols-outlined text-on-surface-variant dark:text-outline-variant text-sm">location_on</span>
+</div>
+</header>
+<!-- Main Content -->
+<main class="pt-[80px] px-md md:px-lg max-w-4xl mx-auto">
+<!-- Title & Header Area -->
+<div class="mb-lg">
+<h1 class="font-headline-xl text-headline-xl text-primary mb-xs">Panier pour Poulet Yakitori</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Vérifiez les ingrédients sélectionnés avant l'ajout au panier Leclerc.</p>
+</div>
+<!-- Recipe Image / Hero -->
+<div class="rounded-xl overflow-hidden mb-lg shadow-sm bg-surface-container-lowest border border-surface-variant" data-alt="A highly stylized, top-down view of a modern kitchen counter prepared for cooking Yakitori. The scene is brightly lit with natural, soft white light reflecting off a clean, minimal white marble surface. Fresh ingredients like raw chicken, basmati rice, and a small bottle of dark soy sauce are arranged neatly next to bamboo skewers. The aesthetic is clean, professional, and inviting, perfectly suited for a premium cooking app interface." style="height: 200px; background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCq5Kpne5fAqbML5NLQD2KLsd_BWZBx9vZNsBkOf2Yxy095xPebOXve_0cn7wmlnFzBgdk4xvnbpADuFv9XSzN638ztqMxLkL4GAVxWFKYOa3LmfROnAPRDVCCVAhW3bCoRQCD-wxfq7kIleX4S3zODcxGQWJ1dwXfBmHhzRtAC1r4khdAIX6aZLk_QHnLm9GAkUrw0vGZflUSo4VZYHzWJTIrD5Z2Wks-IBevycZY3aUGh5sgtVNkZ'); background-size: cover; background-position: center;">
+<div class="w-full h-full bg-gradient-to-t from-black/50 to-transparent flex items-end p-md">
+<span class="text-white font-headline-lg-mobile text-headline-lg-mobile">Poulet Yakitori</span>
+</div>
+</div>
+<!-- Selected Products List -->
+<div class="space-y-md">
+<!-- Item 1: Poulet -->
+<div class="bg-surface-container-lowest rounded-xl p-md border border-surface-variant flex flex-row items-center gap-md shadow-sm transition-transform hover:scale-[1.01]">
+<div class="w-[80px] h-[80px] rounded-lg bg-surface-container flex-shrink-0" data-alt="A close up, high quality studio shot of a package of fresh chicken breasts. The packaging is clean and minimal, sitting on a pristine white background. The lighting is bright and evenly diffused, highlighting the freshness of the meat without harsh shadows, consistent with a modern, high-end online grocery store aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCiSB2mIZ3Rm0hIUjRIUPuHtG9-XmgNAFRbOvyCftf7S5bv0MEdklmkDEO-LCFdvO5Y9W0TtxDspKSovnimdjCrVi7FGe_MoaO2bguHS1ntv3s-_5tlOJVatM22ZUqWndwJqNd86ZXxJv5viWXmErEjvHUPlhj6GUGTnXONorsI-OnLjGREnW8Yw21yEIrIQdFVy_ob3c0taIs2t4HEib7E3ECscXizLJccWS3A1Nc3AbxJ1Nr6D-aQ'); background-size: cover; background-position: center;"></div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-xs">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Poulet</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-primary">6,49 €</span>
+</div>
+<h3 class="font-body-md text-body-md font-semibold text-on-surface line-clamp-1 mb-sm">Filets de poulet 650g</h3>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-xs text-tertiary-container">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+<span class="font-label-bold text-label-bold">Sélectionné</span>
+</div>
+<button class="font-body-sm text-body-sm text-primary hover:opacity-80 transition-opacity">Changer</button>
+</div>
+</div>
+</div>
+<!-- Item 2: Riz -->
+<div class="bg-surface-container-lowest rounded-xl p-md border border-surface-variant flex flex-row items-center gap-md shadow-sm transition-transform hover:scale-[1.01]">
+<div class="w-[80px] h-[80px] rounded-lg bg-surface-container flex-shrink-0" data-alt="A macro studio shot of a clear bag of premium basmati rice resting on a clean, light grey surface. The lighting is soft and bright, emphasizing the long grains of rice. The overall visual style is crisp, minimal, and professional, aligning perfectly with a modern, clean UI design for a food delivery application." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBJjygprvPWBmG-4gewrsfG8tC8G37yh0_SaUyqgr23dSSL8LzQXeuWAiScCRYIvsbyzs0H7LZZoBiP4RX80KRSxzjsvcqJWkFdP_TN5qphVs4hccBlX9sy-boUbbKHkhQPvCNSmAcV39Emq_BaiFAiJLQZmj7JlUY-1jUnGuIs1STd2E7uwYNM_GatyeFHEN1XIt9V81TV_MTsE9CAprsBFZH3i7H5Mhk-ms1QIZp1ZayqbbaGp6MN'); background-size: cover; background-position: center;"></div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-xs">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Riz</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-primary">2,29 €</span>
+</div>
+<h3 class="font-body-md text-body-md font-semibold text-on-surface line-clamp-1 mb-sm">Riz basmati 1kg</h3>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-xs text-tertiary-container">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+<span class="font-label-bold text-label-bold">Sélectionné</span>
+</div>
+<button class="font-body-sm text-body-sm text-primary hover:opacity-80 transition-opacity">Changer</button>
+</div>
+</div>
+</div>
+<!-- Item 3: Sauce -->
+<div class="bg-surface-container-lowest rounded-xl p-md border border-surface-variant flex flex-row items-center gap-md shadow-sm transition-transform hover:scale-[1.01]">
+<div class="w-[80px] h-[80px] rounded-lg bg-surface-container flex-shrink-0" data-alt="A clean studio photograph of a small glass bottle of Yakitori sauce against a pure white background. The rich, dark brown color of the sauce contrasts beautifully with the minimalist setting. The lighting is soft and flattering, creating a high-end, contemporary grocery product shot perfect for a modern user interface." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAxk0s70uv50I0q-G8zV7WPhfrZER-EBlWhKIeECAhYd4Mcj7U_uZ6WrWvHRDqm0Lr2NbK7nNUTcJKIvm8ziS1NNmUWjNYWfEFt77M8DI4AnSDyT5GuOKj9tCF1U9ihNqd5rQhx2RJnQfi7MyW--skVzcpIql3UaabCIOW0Vq1Pw6UsKX0em8Xkt6IPJbznElKtM14UHAZx5Os4CYE-ceHO3OHFIctmk_DZd4O9CtXFnV49sQq4wDod'); background-size: cover; background-position: center;"></div>
+<div class="flex-grow">
+<div class="flex justify-between items-start mb-xs">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Sauce</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-primary">2,15 €</span>
+</div>
+<h3 class="font-body-md text-body-md font-semibold text-on-surface line-clamp-1 mb-sm">Sauce Yakitori 150ml</h3>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-xs text-tertiary-container">
+<span class="material-symbols-outlined text-[18px]">check_circle</span>
+<span class="font-label-bold text-label-bold">Sélectionné</span>
+</div>
+<button class="font-body-sm text-body-sm text-primary hover:opacity-80 transition-opacity">Changer</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Sticky Bottom Actions & Chat Input -->
+<div class="fixed bottom-[64px] left-0 w-full bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_-4px_12px_rgba(0,0,0,0.05)] border-t border-surface-variant z-40 pb-safe md:hidden">
+<!-- Cart Total & Add Action -->
+<div class="px-md py-sm flex flex-col gap-sm border-b border-surface-variant bg-surface-container-lowest">
+<div class="flex justify-between items-center">
+<span class="font-body-md text-body-md text-on-surface">Total (3 articles)</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold">10,93 €</span>
+</div>
+<button class="w-full h-[56px] bg-secondary-container text-on-secondary-container rounded-xl font-headline-lg-mobile text-headline-lg-mobile font-semibold flex items-center justify-center gap-sm active:scale-95 transition-transform">
+<span class="material-symbols-outlined">shopping_cart</span>
+                Ajouter au panier Leclerc
+            </button>
+</div>
+<!-- Chat Input -->
+<div class="px-md py-sm bg-surface">
+<div class="flex items-center bg-surface-container-low rounded-xl h-[56px] px-sm border border-surface-variant">
+<span class="material-symbols-outlined text-outline ml-sm mr-sm">smart_toy</span>
+<input class="flex-grow bg-transparent border-none focus:ring-0 text-on-surface font-body-sm text-body-sm placeholder:text-outline-variant" placeholder="Pose ta question... (ex: 'Prends moins cher')" type="text"/>
+<button class="w-[40px] h-[40px] rounded-full bg-primary flex items-center justify-center text-on-primary ml-xs active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-[20px]">send</span>
+</button>
+</div>
+</div>
+</div>
+<!-- BottomNavBar (From JSON) -->
+<!-- Active Tab logic: Intent Fallback - User is reviewing Cart before adding -> Cart -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 px-md pb-safe bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md border-t border-outline-variant dark:border-outline md:hidden">
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant/20 dark:hover:bg-surface-container-highest/20 w-16 h-full rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-label-bold text-label-bold mt-1">Assistant</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant/20 dark:hover:bg-surface-container-highest/20 w-16 h-full rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span class="font-label-bold text-label-bold mt-1">My Meals</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed hover:bg-surface-variant/20 dark:hover:bg-surface-container-highest/20 w-16 h-full rounded-lg transition-colors active:scale-90 duration-150" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_bag" data-weight="fill" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+<span class="font-label-bold text-label-bold mt-1">Cart</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant/20 dark:hover:bg-surface-container-highest/20 w-16 h-full rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-bold text-label-bold mt-1">Settings</span>
+</a>
+</nav>
+</body></html>

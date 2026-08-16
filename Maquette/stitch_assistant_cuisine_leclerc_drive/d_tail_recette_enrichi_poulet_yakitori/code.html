@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html class="light" lang="fr"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>Assistant Cuisine - Recette</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "background": "#f7f9fb",
+                      "on-tertiary": "#ffffff",
+                      "secondary-fixed-dim": "#ffb77b",
+                      "tertiary": "#005e27",
+                      "tertiary-container": "#007934",
+                      "on-secondary-fixed": "#2e1500",
+                      "on-tertiary-fixed": "#002109",
+                      "primary-fixed-dim": "#aac7ff",
+                      "inverse-surface": "#2d3133",
+                      "surface-variant": "#e0e3e5",
+                      "on-tertiary-fixed-variant": "#005321",
+                      "primary": "#004e9f",
+                      "error": "#ba1a1a",
+                      "on-secondary": "#ffffff",
+                      "on-primary-fixed": "#001b3e",
+                      "on-background": "#191c1e",
+                      "primary-container": "#0066cc",
+                      "surface-container-high": "#e6e8ea",
+                      "surface-container": "#eceef0",
+                      "tertiary-fixed": "#6bff8f",
+                      "surface-container-highest": "#e0e3e5",
+                      "on-primary-fixed-variant": "#00458e",
+                      "on-secondary-fixed-variant": "#6d3a00",
+                      "on-error-container": "#93000a",
+                      "surface-tint": "#005cba",
+                      "surface-container-lowest": "#ffffff",
+                      "on-secondary-container": "#623300",
+                      "surface-container-low": "#f2f4f6",
+                      "on-tertiary-container": "#98ffa9",
+                      "on-error": "#ffffff",
+                      "inverse-on-surface": "#eff1f3",
+                      "secondary-container": "#ff8e04",
+                      "on-primary": "#ffffff",
+                      "on-surface-variant": "#414753",
+                      "outline": "#727784",
+                      "surface": "#f7f9fb",
+                      "on-primary-container": "#dfe8ff",
+                      "surface-dim": "#d8dadc",
+                      "surface-bright": "#f7f9fb",
+                      "outline-variant": "#c1c6d5",
+                      "primary-fixed": "#d7e3ff",
+                      "on-surface": "#191c1e",
+                      "inverse-primary": "#aac7ff",
+                      "secondary": "#8f4d00",
+                      "secondary-fixed": "#ffdcc2",
+                      "error-container": "#ffdad6",
+                      "tertiary-fixed-dim": "#4ae176"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xl": "32px",
+                      "lg": "24px",
+                      "container-padding": "16px",
+                      "md": "16px",
+                      "unit": "4px",
+                      "xs": "4px",
+                      "sm": "8px",
+                      "gutter": "12px"
+              },
+              "fontFamily": {
+                      "headline-xl": ["Inter"],
+                      "body-sm": ["Inter"],
+                      "body-md": ["Inter"],
+                      "headline-lg-mobile": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "chat-bubble": ["Inter"],
+                      "label-bold": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-xl": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                      "chat-bubble": ["15px", {"lineHeight": "22px", "fontWeight": "400"}],
+                      "label-bold": ["12px", {"lineHeight": "16px", "fontWeight": "700"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        body { -webkit-tap-highlight-color: transparent; }
+        
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Ingredient Checkbox State Styles */
+        .ingredient-row.completed .checkbox-circle {
+            background-color: theme('colors.tertiary-container');
+            border-color: theme('colors.tertiary-container');
+            color: theme('colors.on-tertiary');
+        }
+        .ingredient-row.completed .ingredient-name {
+            text-decoration: line-through;
+            color: theme('colors.outline');
+        }
+        
+        /* Sheet Animation */
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .animate-sheet {
+            animation: slideUp 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface antialiased h-screen overflow-hidden">
+<div class="fixed inset-0 bg-inverse-surface/40 backdrop-blur-sm z-40 flex items-end justify-center transition-opacity" id="overlay-backdrop">
+<div class="bg-surface-container-lowest w-full md:w-full md:max-w-2xl h-[813px] rounded-t-[32px] flex flex-col shadow-[0_-4px_12px_rgba(0,0,0,0.08)] animate-sheet" id="recipe-sheet">
+<div class="relative h-56 shrink-0 w-full bg-surface-container-high rounded-t-[32px] overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A close-up, high-quality food photography shot of Japanese Chicken Yakitori skewers resting on a minimalist ceramic plate. The grilled chicken pieces are beautifully glazed with a rich, dark soy-based sauce, sprinkled with toasted white sesame seeds and chopped green onions. The lighting is soft, warm, and inviting, creating appetizing highlights on the sticky glaze. The background is a clean, softly blurred light-mode kitchen setting, enhancing the professional and appetizing culinary aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9eHw8viZhreUS-F7HELVu3k81RpFbexRBDWetqmiBZM9fw23kNkBkYbh9Wwd3ypvxa4owmrI7F2xtTuLUBayBFvo8zk5xpi4iXPVPqyMXyl7Dv6uUCBl6ahzFRH4qXKFdkAc1ArecTh7CdvpN5Me5iPsW0s1z97tlxKrVp4omte-qS9oXiO32J6cB4-EvIRIszZjVwqgzCUjRU9t5e2XDtKR9idGMyMtFvVNn2w6HDCF2I8dkgX35"/>
+<div class="absolute top-md right-md flex gap-sm">
+<button aria-label="Close" class="w-10 h-10 rounded-full bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center text-on-surface shadow-sm active:scale-95 transition-transform" onclick="closeSheet()">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">close</span>
+</button>
+</div>
+</div>
+<div class="flex-1 overflow-y-auto hide-scrollbar flex flex-col pb-xl">
+<div class="px-container-padding py-lg flex flex-col gap-sm">
+<div class="flex justify-between items-start">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Poulet yakitori</h1>
+<div class="bg-[#007934] text-white px-2 py-1 rounded-md font-bold text-[14px] flex items-center shadow-sm">
+<span>Nutri-Score A</span>
+</div>
+</div>
+<div class="flex items-center gap-lg">
+<div class="flex items-center gap-xs text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px]">group</span>
+<span>3 personnes</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px]">schedule</span>
+<span>30 min</span>
+</div>
+</div>
+</div>
+<hr class="border-outline-variant/30 mx-container-padding"/>
+<!-- Nutrition Section -->
+<div class="px-container-padding py-md flex flex-col gap-sm">
+<h2 class="font-body-md text-body-md font-semibold text-on-surface">Valeurs nutritionnelles (par portion)</h2>
+<div class="flex justify-between bg-surface-container-low rounded-xl p-md border border-surface-variant">
+<div class="flex flex-col items-center">
+<span class="font-label-bold text-label-bold text-on-surface-variant">Calories</span>
+<span class="font-body-md text-body-md font-semibold text-on-surface">320 kcal</span>
+</div>
+<div class="w-px bg-outline-variant/50"></div>
+<div class="flex flex-col items-center">
+<span class="font-label-bold text-label-bold text-on-surface-variant">Protéines</span>
+<span class="font-body-md text-body-md font-semibold text-on-surface">35g</span>
+</div>
+<div class="w-px bg-outline-variant/50"></div>
+<div class="flex flex-col items-center">
+<span class="font-label-bold text-label-bold text-on-surface-variant">Glucides</span>
+<span class="font-body-md text-body-md font-semibold text-on-surface">15g</span>
+</div>
+<div class="w-px bg-outline-variant/50"></div>
+<div class="flex flex-col items-center">
+<span class="font-label-bold text-label-bold text-on-surface-variant">Lipides</span>
+<span class="font-body-md text-body-md font-semibold text-on-surface">12g</span>
+</div>
+</div>
+</div>
+<hr class="border-outline-variant/30 mx-container-padding"/>
+<div class="px-container-padding py-lg flex flex-col gap-md">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Ingrédients</h2>
+<div class="flex flex-col gap-sm">
+<div class="ingredient-row flex items-center justify-between p-sm pl-md pr-md bg-surface-container-low rounded-xl border border-surface-variant cursor-pointer active:scale-[0.99] transition-all" onclick="toggleIngredient(this)">
+<div class="flex items-center gap-md">
+<div class="checkbox-circle w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center text-transparent transition-colors duration-200 shrink-0">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'wght' 700;">check</span>
+</div>
+<span class="ingredient-name font-body-md text-body-md text-on-surface transition-colors duration-200">Poulet</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">600g</span>
+</div>
+<div class="ingredient-row flex items-center justify-between p-sm pl-md pr-md bg-surface-container-low rounded-xl border border-surface-variant cursor-pointer active:scale-[0.99] transition-all" onclick="toggleIngredient(this)">
+<div class="flex items-center gap-md">
+<div class="checkbox-circle w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center text-transparent transition-colors duration-200 shrink-0">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'wght' 700;">check</span>
+</div>
+<span class="ingredient-name font-body-md text-body-md text-on-surface transition-colors duration-200">Riz</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">300g</span>
+</div>
+<div class="ingredient-row flex items-center justify-between p-sm pl-md pr-md bg-surface-container-low rounded-xl border border-surface-variant cursor-pointer active:scale-[0.99] transition-all" onclick="toggleIngredient(this)">
+<div class="flex items-center gap-md">
+<div class="checkbox-circle w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center text-transparent transition-colors duration-200 shrink-0">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'wght' 700;">check</span>
+</div>
+<span class="ingredient-name font-body-md text-body-md text-on-surface transition-colors duration-200">Sauce yakitori</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">1 bouteille</span>
+</div>
+<div class="ingredient-row flex items-center justify-between p-sm pl-md pr-md bg-surface-container-low rounded-xl border border-surface-variant cursor-pointer active:scale-[0.99] transition-all" onclick="toggleIngredient(this)">
+<div class="flex items-center gap-md">
+<div class="checkbox-circle w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center text-transparent transition-colors duration-200 shrink-0">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'wght' 700;">check</span>
+</div>
+<span class="ingredient-name font-body-md text-body-md text-on-surface transition-colors duration-200">Oignons nouveaux</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">2 pièces</span>
+</div>
+<div class="ingredient-row flex items-center justify-between p-sm pl-md pr-md bg-surface-container-low rounded-xl border border-surface-variant cursor-pointer active:scale-[0.99] transition-all" onclick="toggleIngredient(this)">
+<div class="flex items-center gap-md">
+<div class="checkbox-circle w-6 h-6 rounded-full border-2 border-outline-variant flex items-center justify-center text-transparent transition-colors duration-200 shrink-0">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'wght' 700;">check</span>
+</div>
+<span class="ingredient-name font-body-md text-body-md text-on-surface transition-colors duration-200">Graines de sésame</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Au goût</span>
+</div>
+</div>
+</div>
+<div class="px-container-padding py-lg flex flex-col gap-lg bg-surface-bright mt-sm border-t border-outline-variant/30">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Préparation</h2>
+<div class="flex flex-col gap-lg relative">
+<div class="absolute left-[15px] top-6 bottom-6 w-0.5 bg-outline-variant/30"></div>
+<div class="flex gap-md relative z-10">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shrink-0 font-label-bold text-label-bold shadow-sm ring-4 ring-surface-bright">1</div>
+<div class="flex-1 pt-1">
+<p class="font-body-md text-body-md text-on-surface">Couper le poulet en cubes réguliers pour assurer une cuisson homogène.</p>
+</div>
+</div>
+<div class="flex gap-md relative z-10">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shrink-0 font-label-bold text-label-bold shadow-sm ring-4 ring-surface-bright">2</div>
+<div class="flex-1 pt-1">
+<p class="font-body-md text-body-md text-on-surface">Monter les brochettes en alternant les morceaux de poulet et les tronçons d'oignons nouveaux.</p>
+</div>
+</div>
+<div class="flex gap-md relative z-10">
+<div class="w-8 h-8 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center shrink-0 font-label-bold text-label-bold shadow-sm ring-4 ring-surface-bright">3</div>
+<div class="flex-1 pt-1">
+<p class="font-body-md text-body-md text-on-surface">Faire cuire sur un gril ou à la poêle, en badigeonnant généreusement de sauce yakitori et en saupoudrant de sésame en fin de cuisson.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Chef's Tips Section -->
+<div class="px-container-padding py-lg flex flex-col gap-md bg-surface-container-low mt-sm rounded-t-2xl">
+<div class="flex items-center gap-sm text-primary">
+<span class="material-symbols-outlined">lightbulb</span>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">Conseils du Chef</h2>
+</div>
+<ul class="list-disc list-inside font-body-md text-body-md text-on-surface-variant flex flex-col gap-sm pl-sm">
+<li>Faites tremper les piques en bois dans l'eau pendant 10 minutes avant la cuisson pour éviter qu'ils ne brûlent.</li>
+<li>Faites mariner le poulet dans un peu de sauce soja pendant 30 minutes au préalable pour encore plus de saveur.</li>
+</ul>
+</div>
+</div>
+<div class="shrink-0 px-container-padding pt-md pb-[calc(16px+env(safe-area-inset-bottom))] bg-surface-container-lowest border-t border-outline-variant/30 shadow-[0_-4px_16px_rgba(0,0,0,0.04)] z-20">
+<div class="flex justify-between items-end mb-md">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Panier estimé</span>
+<span class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface">11,80 €</span>
+</div>
+<button class="w-full h-[56px] rounded-xl bg-secondary-container text-on-secondary-container flex items-center justify-center gap-sm font-headline-lg-mobile text-headline-lg-mobile shadow-sm hover:opacity-90 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+                    Préparer le panier
+                </button>
+</div>
+</div>
+</div>
+<script>
+        function toggleIngredient(element) {
+            element.classList.toggle('completed');
+        }
+
+        function closeSheet() {
+            const sheet = document.getElementById('recipe-sheet');
+            const backdrop = document.getElementById('overlay-backdrop');
+            
+            sheet.style.transform = 'translateY(100%)';
+            backdrop.style.opacity = '0';
+            
+            setTimeout(() => {
+                backdrop.style.display = 'none';
+            }, 300);
+        }
+    </script>
+</body></html>

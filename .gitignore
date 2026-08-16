@@ -1,0 +1,19 @@
+# Java / Maven
+backend/target/
+
+# Flutter / Dart
+mobile/.dart_tool/
+mobile/build/
+mobile/.packages
+
+# Codex local workspace
+.codex/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+Thumbs.db
+.DS_Store

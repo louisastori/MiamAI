@@ -1,0 +1,26 @@
+schema: spec-driven
+
+# Project context (optional)
+# This is shown to AI when creating artifacts.
+# Add your tech stack, conventions, style guides, domain knowledge, etc.
+# Example:
+#   context: |
+#     Tech stack: TypeScript, React, Node.js
+#     We use conventional commits
+#     Domain: e-commerce platform
+context: |
+  Projet: MiamAI, application mobile d'assistant culinaire IA.
+  Stack cible: Flutter pour l'application mobile, Spring Boot pour l'API backend.
+  Domaine: l'utilisateur discute avec l'IA pour trouver des recettes, puis MiamAI prepare une liste de courses basee sur de vrais produits Leclerc Drive.
+  Non-objectifs produit: pas de gestion du stock maison, pas de scan code-barres, pas de suivi du frigo, pas de decompte automatique des ingredients consommes.
+  Principe cle: l'IA propose les besoins culinaires, mais les produits, prix et disponibilites doivent venir du systeme Leclerc Drive ou d'un adaptateur explicite.
+
+# Per-artifact rules (optional)
+# Add custom rules for specific artifacts.
+# Example:
+#   rules:
+#     proposal:
+#       - Keep proposals under 500 words
+#       - Always include a "Non-goals" section
+#     tasks:
+#       - Break tasks into chunks of max 2 hours

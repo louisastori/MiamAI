@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
+<title>Assistant Cuisine Leclerc Drive - Chat</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "background": "#f7f9fb",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed-dim": "#ffb77b",
+                    "tertiary": "#005e27",
+                    "tertiary-container": "#007934",
+                    "on-secondary-fixed": "#2e1500",
+                    "on-tertiary-fixed": "#002109",
+                    "primary-fixed-dim": "#aac7ff",
+                    "inverse-surface": "#2d3133",
+                    "surface-variant": "#e0e3e5",
+                    "on-tertiary-fixed-variant": "#005321",
+                    "primary": "#004e9f",
+                    "error": "#ba1a1a",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed": "#001b3e",
+                    "on-background": "#191c1e",
+                    "primary-container": "#0066cc",
+                    "surface-container-high": "#e6e8ea",
+                    "surface-container": "#eceef0",
+                    "tertiary-fixed": "#6bff8f",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-primary-fixed-variant": "#00458e",
+                    "on-secondary-fixed-variant": "#6d3a00",
+                    "on-error-container": "#93000a",
+                    "surface-tint": "#005cba",
+                    "surface-container-lowest": "#ffffff",
+                    "on-secondary-container": "#623300",
+                    "surface-container-low": "#f2f4f6",
+                    "on-tertiary-container": "#98ffa9",
+                    "on-error": "#ffffff",
+                    "inverse-on-surface": "#eff1f3",
+                    "secondary-container": "#ff8e04",
+                    "on-primary": "#ffffff",
+                    "on-surface-variant": "#414753",
+                    "outline": "#727784",
+                    "surface": "#f7f9fb",
+                    "on-primary-container": "#dfe8ff",
+                    "surface-dim": "#d8dadc",
+                    "surface-bright": "#f7f9fb",
+                    "outline-variant": "#c1c6d5",
+                    "primary-fixed": "#d7e3ff",
+                    "on-surface": "#191c1e",
+                    "inverse-primary": "#aac7ff",
+                    "secondary": "#8f4d00",
+                    "secondary-fixed": "#ffdcc2",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed-dim": "#4ae176"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xl": "32px",
+                    "lg": "24px",
+                    "container-padding": "16px",
+                    "md": "16px",
+                    "unit": "4px",
+                    "xs": "4px",
+                    "sm": "8px",
+                    "gutter": "12px",
+                    "safe": "env(safe-area-inset-bottom, 20px)"
+            },
+            "fontFamily": {
+                    "headline-xl": ["Inter", "sans-serif"],
+                    "body-sm": ["Inter", "sans-serif"],
+                    "body-md": ["Inter", "sans-serif"],
+                    "headline-lg-mobile": ["Inter", "sans-serif"],
+                    "headline-lg": ["Inter", "sans-serif"],
+                    "chat-bubble": ["Inter", "sans-serif"],
+                    "label-bold": ["Inter", "sans-serif"]
+            },
+            "fontSize": {
+                    "headline-xl": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "chat-bubble": ["15px", {"lineHeight": "22px", "fontWeight": "400"}],
+                    "label-bold": ["12px", {"lineHeight": "16px", "fontWeight": "700"}]
+            }
+          },
+        }
+      }
+    </script>
+<style>
+        /* Custom scrollbar for horizontal lists */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background antialiased overflow-hidden min-h-screen flex flex-col relative">
+<!-- TopAppBar (from JSON Blueprint) -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-md h-14 bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed" data-icon="restaurant">restaurant</span>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-primary dark:text-primary-fixed tracking-tight">Assistant Cuisine</h1>
+</div>
+<button class="flex items-center gap-xs hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="font-body-sm text-body-sm text-on-surface-variant font-medium">Pessac</span>
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="location_on" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</button>
+</header>
+<!-- Main Content: Chat Canvas -->
+<main class="flex-1 w-full pt-20 pb-40 px-md overflow-y-auto hide-scrollbar flex flex-col gap-lg">
+<!-- Welcome / Date divider -->
+<div class="flex justify-center w-full mt-4">
+<span class="font-body-sm text-body-sm text-on-surface-variant bg-surface-container rounded-full px-4 py-1">Aujourd'hui, 17:30</span>
+</div>
+<!-- User Bubble -->
+<div class="flex justify-end w-full animate-fade-in-up" style="animation: fadeInUp 0.4s ease-out;">
+<div class="bg-primary text-on-primary rounded-2xl rounded-tr-sm px-4 py-3 max-w-[85%] shadow-[0_4px_12px_rgba(0,0,0,0.08)]">
+<p class="font-chat-bubble text-chat-bubble">
+                    Je veux manger asiatique ce soir, pour 3 personnes, pas trop compliqué.
+                </p>
+</div>
+</div>
+<!-- Assistant Bubble -->
+<div class="flex flex-col w-full gap-3 animate-fade-in-up" style="animation: fadeInUp 0.4s ease-out 0.2s both;">
+<div class="flex items-start gap-2 max-w-[90%]">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="restaurant">restaurant</span>
+</div>
+<div class="bg-surface-container-lowest text-on-surface rounded-2xl rounded-tl-sm px-4 py-3 shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-surface-variant/50">
+<p class="font-chat-bubble text-chat-bubble">
+                        Excellente idée ! L'asiatique est parfait pour un repas rapide et savoureux. Je vous propose ces 3 recettes faciles à réaliser :
+                    </p>
+</div>
+</div>
+<!-- Recipe Carousel -->
+<div class="w-full pl-10 pr-[-16px] -mr-md overflow-hidden">
+<div class="flex gap-4 overflow-x-auto hide-scrollbar pb-4 pt-1 snap-x snap-mandatory">
+<!-- Card 1 -->
+<div class="min-w-[260px] w-[260px] bg-surface-container-lowest rounded-xl border border-surface-variant/60 shadow-[0_2px_8px_rgba(0,0,0,0.02)] overflow-hidden snap-center flex flex-col">
+<div class="relative w-full h-32 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="A mouth-watering, high-resolution top-down photograph of Japanese Chicken Yakitori skewers perfectly grilled and glistening with teriyaki glaze, sprinkled with sesame seeds and chopped green onions. Served on a minimalist white ceramic rectangular plate with a soft-focus bright, modern kitchen background, light mode aesthetic, soft natural lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAiyQHAb3CYnhcdQydn4ON456wYyz5Pd1bgGU5werF8OP8QQqcW7P4Udhoa-JAqgKlF4hiw_oNgHfzWU1oo_xzejrVxbDW86JBKmWYwItPPFKbxZ66Uk7YAy04VeSC0p5BSVwzDKAaMcmsgitPcZZxG0E2-lfRekkFNCwSlhODDP-tZVi02tdUpPP9GuJkm_HhHtupi1mauVaV99bJ04vvucfdPGsUGUfip-uSotHec0bZtUksBhxle"/>
+<div class="absolute top-2 right-2 bg-surface/90 backdrop-blur-sm rounded-full px-2 py-1 flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px] text-tertiary" data-icon="eco">eco</span>
+<span class="font-label-bold text-label-bold text-on-surface">Nutri A</span>
+</div>
+</div>
+<div class="p-3 flex flex-col flex-1 gap-2">
+<h3 class="font-body-md text-body-md font-bold text-on-surface leading-tight line-clamp-2">Poulet Yakitori, riz basmati et légumes croquants</h3>
+<div class="flex items-center gap-3 font-body-sm text-body-sm text-on-surface-variant text-[12px] mt-1">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]" data-icon="timer">timer</span> 25 min</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]" data-icon="group">group</span> 3 pers</span>
+</div>
+<div class="flex items-center justify-between mt-auto pt-3 border-t border-surface-variant/30">
+<span class="font-body-md text-body-md font-bold text-primary">~12 €</span>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 rounded-lg border border-primary text-primary font-body-sm text-body-sm text-[13px] font-medium hover:bg-primary-fixed transition-colors">Voir</button>
+<button class="px-3 py-1.5 rounded-lg bg-secondary text-on-secondary font-body-sm text-body-sm text-[13px] font-medium shadow-sm active:scale-95 transition-transform">Choisir</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="min-w-[260px] w-[260px] bg-surface-container-lowest rounded-xl border border-surface-variant/60 shadow-[0_2px_8px_rgba(0,0,0,0.02)] overflow-hidden snap-center flex flex-col">
+<div class="relative w-full h-32 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="A vibrant, warm photograph of Thai Green Chicken Curry served in a deep matte white bowl. The curry features tender chicken pieces, bright green peas, and fresh cilantro, surrounded by fluffy jasmine rice. The setting is bright and clean, soft-minimalist light mode aesthetic, well-lit from a window." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIQAdz8TwSwUvSEnZ_meBYx3VFzwhaLc0Z25g62__toW5ePYdYYTjmamnId8vtvBl9PkHjv9R6O1NAhTtd2LUtzK_3rnK2EhZlvAAPoQbOJGvqayXBOMfD-1HmodfHMiPG4xTB98fCMjGdntSAjKlbTPFEwWvlC1r9QI_ZyN8N9b5rg7KE7HnveupEElomfyGcZlq29tfOMfDIzM70v6IN9o0nPcUkekbG8GVvmAy7WyXeff7CJwmH"/>
+</div>
+<div class="p-3 flex flex-col flex-1 gap-2">
+<h3 class="font-body-md text-body-md font-bold text-on-surface leading-tight line-clamp-2">Curry Thaï vert au poulet, lait de coco et poivrons</h3>
+<div class="flex items-center gap-3 font-body-sm text-body-sm text-on-surface-variant text-[12px] mt-1">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]" data-icon="timer">timer</span> 35 min</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]" data-icon="group">group</span> 3 pers</span>
+</div>
+<div class="flex items-center justify-between mt-auto pt-3 border-t border-surface-variant/30">
+<span class="font-body-md text-body-md font-bold text-primary">~15 €</span>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 rounded-lg border border-primary text-primary font-body-sm text-body-sm text-[13px] font-medium hover:bg-primary-fixed transition-colors">Voir</button>
+<button class="px-3 py-1.5 rounded-lg bg-secondary text-on-secondary font-body-sm text-body-sm text-[13px] font-medium shadow-sm active:scale-95 transition-transform">Choisir</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="min-w-[260px] w-[260px] bg-surface-container-lowest rounded-xl border border-surface-variant/60 shadow-[0_2px_8px_rgba(0,0,0,0.02)] overflow-hidden snap-center flex flex-col mr-md">
+<div class="relative w-full h-32 bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="A mouth-watering high-resolution photo of Beef Teriyaki stir-fry with broccoli florets and thinly sliced carrots served over noodles in a modern pale grey bowl. Bright, diffused overhead lighting, clean professional light mode food photography aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDflOH5FNp7MJdp6MyKC7JAFmqAGlG2lFSP15cO6gsxkRtprlKF_5bwg0s0jgXZUIjgHPLIhGjwOscuQak4u0ENaRNYIr94ziNATqGk0oni1a_Uyfqh91OCm86GQXPnI5s9Ho9PziSlHEoem_blT_Bm273imXVd6whpPSuQFGjq3WCcSjl8UkSdv2DmQ_gKDTt3N7QwCkGbeADkgT8RmMEZYQBym8YhgOWVkaRdArLvBun0F-xbGOXz"/>
+</div>
+<div class="p-3 flex flex-col flex-1 gap-2">
+<h3 class="font-body-md text-body-md font-bold text-on-surface leading-tight line-clamp-2">Sauté de Bœuf Teriyaki, brocolis et nouilles soba</h3>
+<div class="flex items-center gap-3 font-body-sm text-body-sm text-on-surface-variant text-[12px] mt-1">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]" data-icon="timer">timer</span> 30 min</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]" data-icon="group">group</span> 3 pers</span>
+</div>
+<div class="flex items-center justify-between mt-auto pt-3 border-t border-surface-variant/30">
+<span class="font-body-md text-body-md font-bold text-primary">~17 €</span>
+<div class="flex gap-2">
+<button class="px-3 py-1.5 rounded-lg border border-primary text-primary font-body-sm text-body-sm text-[13px] font-medium hover:bg-primary-fixed transition-colors">Voir</button>
+<button class="px-3 py-1.5 rounded-lg bg-secondary text-on-secondary font-body-sm text-body-sm text-[13px] font-medium shadow-sm active:scale-95 transition-transform">Choisir</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Spacer for bottom input area -->
+<div class="h-8"></div>
+</main>
+<!-- Bottom Input & Shortcuts Area -->
+<div class="fixed bottom-[64px] left-0 w-full px-md pb-sm pt-4 bg-gradient-to-t from-background via-background/95 to-transparent z-40 flex flex-col gap-3">
+<!-- Shortcuts Chips -->
+<div class="flex gap-2 overflow-x-auto hide-scrollbar pb-1">
+<button class="shrink-0 flex items-center gap-1.5 px-3 py-1.5 bg-surface-container rounded-full border border-surface-variant text-on-surface font-body-sm text-[13px] hover:bg-surface-container-high transition-colors">
+<span>🍽️</span> Ce soir
+            </button>
+<button class="shrink-0 flex items-center gap-1.5 px-3 py-1.5 bg-surface-container rounded-full border border-surface-variant text-on-surface font-body-sm text-[13px] hover:bg-surface-container-high transition-colors">
+<span>📅</span> Semaine
+            </button>
+<button class="shrink-0 flex items-center gap-1.5 px-3 py-1.5 bg-surface-container rounded-full border border-surface-variant text-on-surface font-body-sm text-[13px] hover:bg-surface-container-high transition-colors">
+<span>💰</span> Petit budget
+            </button>
+<button class="shrink-0 flex items-center gap-1.5 px-3 py-1.5 bg-surface-container rounded-full border border-surface-variant text-on-surface font-body-sm text-[13px] hover:bg-surface-container-high transition-colors">
+<span>⚡</span> Rapide
+            </button>
+</div>
+<!-- Chat Input Bar -->
+<div class="flex items-end gap-2 bg-surface-container-lowest rounded-2xl p-2 shadow-[0_2px_12px_rgba(0,0,0,0.06)] border border-surface-variant/50">
+<button class="p-2 text-primary hover:bg-primary-fixed rounded-full transition-colors shrink-0">
+<span class="material-symbols-outlined" data-icon="mic">mic</span>
+</button>
+<div class="flex-1 min-h-[44px] flex items-center relative pb-1">
+<textarea class="w-full bg-transparent border-none focus:ring-0 resize-none font-body-md text-body-md text-on-surface placeholder:text-outline p-0 m-0 leading-tight max-h-24 py-1" placeholder="Pose ta question..." rows="1"></textarea>
+</div>
+<button class="w-11 h-11 bg-primary text-on-primary rounded-xl flex items-center justify-center shrink-0 shadow-sm active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="send" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+</div>
+<!-- BottomNavBar (from JSON Blueprint) -->
+<!-- The prompt says "Assistant (active)", so we highlight "Assistant" -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 px-md pb-safe bg-surface/80 dark:bg-surface-dim/80 backdrop-blur-md border-t-0 shadow-[0_-1px_0_rgba(224,227,229,0.5)]">
+<!-- Assistant (Active) -->
+<button class="flex flex-col items-center justify-center text-primary dark:text-primary-fixed hover:bg-surface-variant/20 dark:hover:bg-surface-container-highest/20 active:scale-90 transition-transform duration-150 w-full h-full">
+<div class="px-4 py-1 rounded-full bg-primary-container/20 mb-1">
+<span class="material-symbols-outlined" data-icon="chat_bubble" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
+</div>
+<span class="font-label-bold text-label-bold">Assistant</span>
+</button>
+<!-- My Meals (Inactive) -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant/20 dark:hover:bg-surface-container-highest/20 active:scale-90 transition-transform duration-150 w-full h-full">
+<span class="material-symbols-outlined mb-1" data-icon="calendar_month">calendar_month</span>
+<span class="font-label-bold text-label-bold">My Meals</span>
+</button>
+<!-- Cart (Inactive) -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant/20 dark:hover:bg-surface-container-highest/20 active:scale-90 transition-transform duration-150 w-full h-full relative">
+<span class="material-symbols-outlined mb-1" data-icon="shopping_bag">shopping_bag</span>
+<span class="font-label-bold text-label-bold">Cart</span>
+</button>
+<!-- Settings (Inactive) -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant hover:bg-surface-variant/20 dark:hover:bg-surface-container-highest/20 active:scale-90 transition-transform duration-150 w-full h-full">
+<span class="material-symbols-outlined mb-1" data-icon="settings">settings</span>
+<span class="font-label-bold text-label-bold">Settings</span>
+</button>
+</nav>
+<style>
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+<script>
+        // Auto-resize textarea logic
+        const textarea = document.querySelector('textarea');
+        if (textarea) {
+            textarea.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+        }
+    </script>
+</body></html>
